@@ -32,6 +32,7 @@ public class ClawYD {
         this.authCode = authCode;
     }
 
+
     /**
      * 下载图片验证码
      * @param httpClient
