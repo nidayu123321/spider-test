@@ -47,13 +47,10 @@ public class MD5 {
 		bytes = messageDigest.digest();
 		
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < bytes.length; i ++)
-		{
-			if((bytes[i] & 0xff) < 0x10)
-			{
+		for(int i = 0; i < bytes.length; i ++){
+			if((bytes[i] & 0xff) < 0x10){
 				sb.append("0");
 			}
-
 			sb.append(Long.toString(bytes[i] & 0xff, 16));
 		}
 		
