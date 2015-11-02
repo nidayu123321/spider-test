@@ -13,7 +13,7 @@ import java.util.Scanner;
  * @Description:
  * @date 2015/8/27
  */
-public class ClawYD extends HttpClientFactory{
+public class YiDong extends HttpClientFactory{
 
     private CloseableHttpClient httpClient;
     private String phoneNo;
@@ -21,7 +21,7 @@ public class ClawYD extends HttpClientFactory{
     private String authCode;
     private String smsCode;
 
-    public ClawYD(CloseableHttpClient httpClient, String phoneNo, String password, String authCode){
+    public YiDong(CloseableHttpClient httpClient, String phoneNo, String password, String authCode){
         this.httpClient = httpClient;
         this.phoneNo = phoneNo;
         this.password = password;
@@ -135,19 +135,19 @@ public class ClawYD extends HttpClientFactory{
         String phoneNo = "18317042860";
         String password = "163163";
         String authCode = null;
-        ClawYD clawYD = new ClawYD(httpClient, phoneNo, password, authCode);
-        clawYD.saveFile(httpClient, "https://login.10086.cn/captchazh.htm?type=05&timestamp=" + System.currentTimeMillis(), "C:\\a.jpg");
+        YiDong yiDong = new YiDong(httpClient, phoneNo, password, authCode);
+        yiDong.saveFile(httpClient, "https://login.10086.cn/captchazh.htm?type=05&timestamp=" + System.currentTimeMillis(), "C:\\a.jpg");
         System.out.println("请输入验证码:");
         Scanner in = new Scanner(System.in);
         authCode = in.nextLine();
-        clawYD.goLogin(authCode);
-        clawYD.reqMonthBill();
-        clawYD.sendSms();
+        yiDong.goLogin(authCode);
+        yiDong.reqMonthBill();
+        yiDong.sendSms();
         System.out.println("请输入验证码:");
         in = new Scanner(System.in);
-        clawYD.smsCode = in.nextLine();
-        clawYD.checkSms(clawYD.smsCode);
-        clawYD.reqCallDetail("201507", 1);
+        yiDong.smsCode = in.nextLine();
+        yiDong.checkSms(yiDong.smsCode);
+        yiDong.reqCallDetail("201507", 1);
         closeHttpClient(httpClient);
     }
 

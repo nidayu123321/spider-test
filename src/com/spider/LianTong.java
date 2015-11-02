@@ -8,14 +8,14 @@ import org.apache.http.impl.client.CloseableHttpClient;
  * @Description:
  * @date 2015/8/27
  */
-public class ClawLT extends HttpClientFactory{
+public class LianTong extends HttpClientFactory{
 
     private String phoneNo;
     private String password;
     private String authCode;
     private CloseableHttpClient httpClient;
 
-    public ClawLT(CloseableHttpClient httpClient, String phoneNo, String password, String authCode){
+    public LianTong(CloseableHttpClient httpClient, String phoneNo, String password, String authCode){
         this.httpClient = httpClient;
         this.phoneNo = phoneNo;
         this.password = password;
@@ -39,8 +39,8 @@ public class ClawLT extends HttpClientFactory{
         CloseableHttpClient httpClient = getInstance();
         String phoneNo = "18570913849";
         String password = "198888";
-        ClawLT clawLT = new ClawLT(httpClient, phoneNo, password, null);
-        clawLT.goLogin();
+        LianTong lianTong = new LianTong(httpClient, phoneNo, password, null);
+        lianTong.goLogin();
         //打印当前cookie信息
         print(getCookie());
         closeHttpClient(httpClient);
