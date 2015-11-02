@@ -1,6 +1,7 @@
 
 package com.spider;
 
+import com.util.FileUtil;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
@@ -247,26 +248,7 @@ public class HttpClientFactory {
             try {
                 if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                     // 读取为 InputStream，在网页内容数据量大时候推荐使用
-                    InputStream response2 = response.getEntity().getContent();
-                    File file=new File(filePath);
-                    OutputStream os=null;
-                    try{
-                        os=new FileOutputStream(file);
-                        byte buffer[]=new byte[4*1024];
-                        int len = 0;
-                        while((len = response2.read(buffer)) != -1){
-                            os.write(buffer,0,len);
-                        }
-                        os.flush();
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }finally{
-                        try{
-                            os.close();
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }
-                    }
+                    FileUtil.downloadImg(filePath, response.getEntity().getContent());
                 }
             } finally {
                 response.close();

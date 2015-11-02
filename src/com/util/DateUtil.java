@@ -1,4 +1,4 @@
-package com.test;
+package com.util;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -66,7 +66,7 @@ public class DateUtil {
      */
     public static List<String> getMonth(int num){
         List<String> objectTmp = new ArrayList<String>();
-        java.text.DateFormat format2 = new java.text.SimpleDateFormat("yyyyMM");
+        DateFormat format2 = new SimpleDateFormat("yyyyMM");
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, 1);
         for (int i = 0; i < num; i++) {
@@ -86,7 +86,7 @@ public class DateUtil {
      */
     public static List<String> getMonths(int num,String format){
         List<String> objectTmp = new ArrayList<String>();
-        java.text.DateFormat format2 = new java.text.SimpleDateFormat(format);
+        DateFormat format2 = new SimpleDateFormat(format);
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, 1);
         for (int i = 0; i < num; i++) {
@@ -106,7 +106,7 @@ public class DateUtil {
      */
     public static List<String> getMonthsNotInclude(int num,String format){
         List<String> objectTmp = new ArrayList<String>();
-        java.text.DateFormat format2 = new java.text.SimpleDateFormat(format);
+        DateFormat format2 = new SimpleDateFormat(format);
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, 0);
         for (int i = 0; i < num; i++) {
@@ -138,7 +138,7 @@ public class DateUtil {
      * @return
      */
     public static String getLMDay(String format){
-        java.text.DateFormat format2 = new java.text.SimpleDateFormat(format);
+        DateFormat format2 = new SimpleDateFormat(format);
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, -1);
         Date date = c.getTime();
@@ -152,7 +152,7 @@ public class DateUtil {
      * @return
      */
     public static String getLYDay(String format){
-        java.text.DateFormat format2 = new java.text.SimpleDateFormat(format);
+        DateFormat format2 = new SimpleDateFormat(format);
         Calendar c = Calendar.getInstance();
         c.add(Calendar.YEAR, -1);
         Date date = c.getTime();
@@ -167,7 +167,7 @@ public class DateUtil {
      * @return
      */
     public static String getLMDay(int n,String format){
-        java.text.DateFormat format2 = new java.text.SimpleDateFormat(format);
+        DateFormat format2 = new SimpleDateFormat(format);
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, -n);
         Date date = c.getTime();
