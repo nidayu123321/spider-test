@@ -20,7 +20,7 @@ public class TieBa extends HttpClientFactory{
     public static void main(String[] args){
         CloseableHttpClient httpClient= getInstance();
         TieBa tieBa = new TieBa(httpClient);
-        int index = 19;
+        int index = 137;
 
         // 贴吧
         String tiebaUrl = null, tiebaChapter = null;
@@ -29,8 +29,9 @@ public class TieBa extends HttpClientFactory{
         // 魔天记
         tiebaUrl = "http://tieba.baidu.com/f?kw=%E9%AD%94%E5%A4%A9%E8%AE%B0&ie=utf-8&tab=good&cid=2";tiebaChapter = "1411";
         // 一世之尊
-        tiebaUrl = "http://tieba.baidu.com/f?kw=%E4%B8%80%E4%B8%96%E4%B9%8B%E5%B0%8A&ie=utf-8&tab=good&cid=2"; tiebaChapter = "二十章";
-
+//        tiebaUrl = "http://tieba.baidu.com/f?kw=%E4%B8%80%E4%B8%96%E4%B9%8B%E5%B0%8A&ie=utf-8&tab=good&cid=2"; tiebaChapter = "二十章";
+        // 巫神纪
+        tiebaUrl = "http://tieba.baidu.com/f?kw=%E5%B7%AB%E7%A5%9E%E7%BA%AA&ie=utf-8&tab=good&cid=1"; tiebaChapter = foematInteger(index)+"章";
         tieBa.getTieBa(tiebaUrl, tiebaChapter);
 
 
@@ -43,10 +44,8 @@ public class TieBa extends HttpClientFactory{
         // url = "http://read.qidian.com/BookReader/SsH0QR3uBSU1.aspx"; chapter = "第一章";
         // 盛唐崛起
         // url = "http://read.qidian.com/BookReader/PHJRvEIGX-Y1.aspx"; chapter = "第九章";
-        // 巫神纪
-        url = "http://read.qidian.com/BookReader/wjGb4uJndg01.aspx"; chapter = foematInteger(index)+"章";
 
-        // tieBa.getQiDian(url, chapter, false);
+//        tieBa.getQiDian(url, chapter, false);
 
 
         // 纵横

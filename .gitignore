@@ -1,6 +1,4 @@
-#.idea
-.settings
-build
+mytest.iml
 .classpath
 .project
-
+build/classes/
