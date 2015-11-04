@@ -2,6 +2,13 @@ package com.spider;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.function.Predicate;
 
 
 /**
@@ -20,51 +27,49 @@ public class TieBa extends HttpClientFactory{
     public static void main(String[] args){
         CloseableHttpClient httpClient= getInstance();
         TieBa tieBa = new TieBa(httpClient);
-        int index = 137;
-
+        int index = 2486;
+        String name = "武神风暴";
         // 贴吧
         String tiebaUrl = null, tiebaChapter = null;
-        // 灵域
-        // tiebaUrl = "http://tieba.baidu.com/f?kw=%E7%81%B5%E5%9F%9F&ie=gbk&tab=good&cid=0&pn=300";tiebaChapter = "一千四百三十四章";
-        // 魔天记
-        tiebaUrl = "http://tieba.baidu.com/f?kw=%E9%AD%94%E5%A4%A9%E8%AE%B0&ie=utf-8&tab=good&cid=2";tiebaChapter = "1411";
-        // 一世之尊
-//        tiebaUrl = "http://tieba.baidu.com/f?kw=%E4%B8%80%E4%B8%96%E4%B9%8B%E5%B0%8A&ie=utf-8&tab=good&cid=2"; tiebaChapter = "二十章";
-        // 巫神纪
-        tiebaUrl = "http://tieba.baidu.com/f?kw=%E5%B7%AB%E7%A5%9E%E7%BA%AA&ie=utf-8&tab=good&cid=1"; tiebaChapter = foematInteger(index)+"章";
+        try {
+            tiebaUrl = "http://tieba.baidu.com/f?kw="+ URLEncoder.encode(name, "utf-8")+"&ie=utf-8&tab=good&cid=1&pn=100";
+            tiebaChapter = index+"章";
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         tieBa.getTieBa(tiebaUrl, tiebaChapter);
 
 
         // 起点
         String url = null, chapter = null;
-        index = 115;
-        // 一剑飞仙
-        // url = "http://read.qidian.com/BookReader/Rph5iVEas1Q1.aspx"; chapter = "二十二、";
-        // 真武世界
-        // url = "http://read.qidian.com/BookReader/SsH0QR3uBSU1.aspx"; chapter = "第一章";
-        // 盛唐崛起
-        // url = "http://read.qidian.com/BookReader/PHJRvEIGX-Y1.aspx"; chapter = "第九章";
+//        index = 115;
+//        一剑飞仙
+//        url = "http://read.qidian.com/BookReader/Rph5iVEas1Q1.aspx"; chapter = "二十二、";
+//        真武世界
+//        url = "http://read.qidian.com/BookReader/SsH0QR3uBSU1.aspx"; chapter = "第一章";
+//        盛唐崛起
+//        url = "http://read.qidian.com/BookReader/PHJRvEIGX-Y1.aspx"; chapter = "第九章";
 
 //        tieBa.getQiDian(url, chapter, false);
 
 
         // 纵横
         String zonghengUrl = null, zonghengChapter = null;
-        // 终极教师
-        // index = 24;
-        // zonghengUrl = "http://book.zongheng.com/showchapter/347511.html"; zonghengChapter = foematInteger(index)+"章";
-        // 御天神帝
-        // zonghengUrl = "http://book.zongheng.com/showchapter/457529.html"; zonghengChapter = "0181";
-        // tieBa.getZongHeng(zonghengUrl, zonghengChapter);
+//        终极教师
+//        index = 24;
+//        zonghengUrl = "http://book.zongheng.com/showchapter/347511.html"; zonghengChapter = foematInteger(index)+"章";
+//        御天神帝
+//        zonghengUrl = "http://book.zongheng.com/showchapter/457529.html"; zonghengChapter = "0181";
+        tieBa.getZongHeng(zonghengUrl, zonghengChapter);
 
         closeHttpClient(httpClient);
     }
 
     // 获取贴吧数据
     private void getTieBa(String url, String chapter){
-        // 正文
         String[][] tiebaHeader = {{"Host", "tieba.baidu.com"}};
         String tiebaHtml = getUrl(url, tiebaHeader);
+//        print(tiebaHtml);
         String s = Jsoup.parse(tiebaHtml).select("a[title*=" + chapter +"]").attr("href");
         System.out.println(Jsoup.parse(tiebaHtml).select("a[title*=" + chapter +"]").attr("title"));
         String[][] headers = {{"Referer", url}, {"Host", "tieba.baidu.com"}};
@@ -74,15 +79,19 @@ public class TieBa extends HttpClientFactory{
         String tiebaInfo = getUrl(s, headers);
         String text = Jsoup.parse(tiebaInfo).select("div").text();
         String[] list = text.split(" ");
-        for (int i=0; i<list.length; i++) {
-            System.out.println(list[i]);
-        }
+        // 不删除
+         Arrays.asList(list).stream().forEach(s1 ->  System.out.println(s1));
+        // 删除开头和结尾
+//        Predicate<String> limit = string -> string.contains("--------------------------")
+//                || (string.contains("未完待续") || string.contains("敬请期待"));
+//        int begin = Arrays.asList(list).stream().filter(limit).mapToInt(string -> Arrays.asList(list).indexOf(string)).min().getAsInt();
+//        int end = Arrays.asList(list).stream().filter(limit).mapToInt(string -> Arrays.asList(list).indexOf(string)).max().getAsInt();
+//        Arrays.asList(list).stream().skip(begin).limit(end-begin+1).forEach(s1 ->  System.out.println(s1));
     }
 
 
     // 获取起点数据
     private void getQiDian(String url, String chapter, boolean isVip){
-        // 正文
         String qidianHtml = getUrl(url, null);
         String qidianInfo = Jsoup.parse(qidianHtml).select("a").stream()
                 .filter(a -> a.text().contains(chapter))
@@ -115,21 +124,22 @@ public class TieBa extends HttpClientFactory{
 
     // 获取纵横数据
     private void getZongHeng(String url, String chapter){
-        // 正文
-        String[][] headers = {
-                {"Host", "book.zongheng.com"}, {"Content-Type", "text/html; charset=UTF-8"}
-        };
-        String zonghengHtml = getUrl(url, headers);
+        if (url == null || chapter == null) {
+            return;
+        }
+        String zonghengHtml = getUrl(url);
         String chapterId = Jsoup.parse(zonghengHtml).select("td[chapterName*=" + chapter + "]").attr("chapterId");
         String zonghengUrlDes = url.substring(0, url.length() - 5)+"/"+chapterId+".html";
         String[][] zonghengHeader = {
-                {"Referer", url}, {"Host", "book.zongheng.com"}, {"Content-Type", "text/html; charset=UTF-8"},
-                {"Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"}
+                {"Accept-Encoding", "gzip, deflate, sdch"}
         };
         String newUrl = zonghengUrlDes.replace("showchapter", "chapter");
-//        sleep(1000);
         String html = getUrl(newUrl, zonghengHeader);
-        Jsoup.parse(html).select("p").stream().forEach(p -> System.out.println(p.text()));
+        Elements elements = Jsoup.parse(html).select("p");
+        Predicate<Element> limit = node -> node.text().contains("注册帐户|找回密码|帮助中心") || node.text().contains("默认中 大特大");
+        int begin = elements.stream().filter(limit).mapToInt(node -> elements.indexOf(node)).min().getAsInt();
+        int end = elements.stream().filter(limit).mapToInt(node ->elements.indexOf(node)).max().getAsInt();
+        elements.stream().skip(begin).limit(end - begin + 1).forEach(p ->  System.out.println(p.text()));
     }
 
     public static void sleep(int time){
@@ -139,8 +149,6 @@ public class TieBa extends HttpClientFactory{
             e.printStackTrace();
         }
     }
-
-
 
     // 把数字转换为中文！
     static String[] units = { "", "十", "百", "千", "万", "十万", "百万", "千万", "亿",
