@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * @author nidayu
  * @Description:
- * @date 2015/11/2
+ * @date 2015/11/5
  */
 public class FileUtil {
 
@@ -45,18 +45,18 @@ public class FileUtil {
      * @param filePath
      * @param info
      */
-    public static void writeFile(String filePath, String info){
-        // 字符流的写入,字节流写汉字可能出错
-        try {
-            FileWriter fw = new FileWriter(filePath);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(info);
-            // 不关闭则不会写入
-            bw.close();
-            fw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static void writeFile (String filePath, String info) throws Exception{
+        File fp = new File(filePath.substring(0, filePath.lastIndexOf("/")-1));
+        // 创建目录
+        if (!fp.exists()) {
+            fp.mkdirs();// 目录不存在的情况下，创建目录。
         }
+        FileWriter fw = new FileWriter(filePath);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(info);
+        // 不关闭则不会写入
+        bw.close();
+        fw.close();
     }
 
     /**
@@ -87,8 +87,6 @@ public class FileUtil {
     }
 
     public static void main(String[] args){
-        String s="aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        writeFile("c://t.html", s);
-        System.out.println(readFile("c://t.html"));
+
     }
 }

@@ -5,7 +5,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.function.Predicate;
@@ -27,18 +26,10 @@ public class TieBa extends HttpClientFactory{
     public static void main(String[] args){
         CloseableHttpClient httpClient= getInstance();
         TieBa tieBa = new TieBa(httpClient);
-        int index = 2486;
-        String name = "武神风暴";
+        String name = "完美世界小说";
         // 贴吧
-        String tiebaUrl = null, tiebaChapter = null;
-        try {
-            tiebaUrl = "http://tieba.baidu.com/f?kw="+ URLEncoder.encode(name, "utf-8")+"&ie=utf-8&tab=good&cid=1&pn=100";
-            tiebaChapter = index+"章";
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        tieBa.getTieBa(tiebaUrl, tiebaChapter);
-
+        String tiebaChapter = "一千五百一十七章";
+        tieBa.getTieBa(name, tiebaChapter, 0);
 
         // 起点
         String url = null, chapter = null;
@@ -48,8 +39,11 @@ public class TieBa extends HttpClientFactory{
 //        真武世界
 //        url = "http://read.qidian.com/BookReader/SsH0QR3uBSU1.aspx"; chapter = "第一章";
 //        盛唐崛起
-//        url = "http://read.qidian.com/BookReader/PHJRvEIGX-Y1.aspx"; chapter = "第九章";
-
+//        url = "http://read.qidian.com/BookReader/PHJRvEIGX-Y1.aspx"; chapter = "第二十八章";
+//        永恒剑主
+//        url = "http://read.qidian.com/BookReader/RKX-XWZ0I1k1.aspx"; chapter = "八十三章";
+//        五行天
+//        url = "http://read.qidian.com/BookReader/82plFx6pHLY1.aspx"; chapter = "第三章";
 //        tieBa.getQiDian(url, chapter, false);
 
 
@@ -66,21 +60,34 @@ public class TieBa extends HttpClientFactory{
     }
 
     // 获取贴吧数据
-    private void getTieBa(String url, String chapter){
+    private void getTieBa(String name, String chapter, int i){
+        String url = null;
+        try {
+            url = "http://tieba.baidu.com/f?kw=" + URLEncoder.encode(name, "utf-8") + "&ie=utf-8&tab=good&cid="+i+"&pn=0";
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         String[][] tiebaHeader = {{"Host", "tieba.baidu.com"}};
         String tiebaHtml = getUrl(url, tiebaHeader);
-//        print(tiebaHtml);
-        String s = Jsoup.parse(tiebaHtml).select("a[title*=" + chapter +"]").attr("href");
+        String s = null;
+        try {
+            s = Jsoup.parse(tiebaHtml).select("a[title*=" + chapter + "]").get(0).attr("href");
+        }catch (Exception e){
+            if (i<6) {
+                getTieBa(name, chapter, i + 1);
+                return;
+            }
+        }
         System.out.println(Jsoup.parse(tiebaHtml).select("a[title*=" + chapter +"]").attr("title"));
         String[][] headers = {{"Referer", url}, {"Host", "tieba.baidu.com"}};
-        if (!s.startsWith("http")){
+        if (s!= null && !s.startsWith("http")){
             s = "http://tieba.baidu.com"+s;
         }
         String tiebaInfo = getUrl(s, headers);
         String text = Jsoup.parse(tiebaInfo).select("div").text();
         String[] list = text.split(" ");
         // 不删除
-         Arrays.asList(list).stream().forEach(s1 ->  System.out.println(s1));
+        Arrays.asList(list).stream().forEach(s1 ->  System.out.println(s1));
         // 删除开头和结尾
 //        Predicate<String> limit = string -> string.contains("--------------------------")
 //                || (string.contains("未完待续") || string.contains("敬请期待"));
