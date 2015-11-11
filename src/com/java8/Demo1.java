@@ -9,11 +9,11 @@ import java.util.stream.IntStream;
 
 /**
  * @author nidayu
- * @Description: Í³¼Æµ¥´Ê¸öÊı£¬ ³õÊ¼»¯£¬ ·½·¨¸²¸Ç£¬ ÅÅĞò£¬ Ñ­»·±éÀú
+ * @Description: ç»Ÿè®¡å•è¯ä¸ªæ•°ï¼Œ åˆå§‹åŒ–ï¼Œ æ–¹æ³•è¦†ç›–ï¼Œ æ’åºï¼Œ å¾ªç¯éå†
  * @date 2015/11/2
  */
 public class Demo1 {
-    //²»°üº¬µÄ¼¯ºÏ£¡
+    //ä¸åŒ…å«çš„é›†åˆï¼
     private static Set NON_WORDS = new HashSet<String>(){{add("ni"); add("DA"); add("yu");}};
 
     public Map wordFreq(String words){
@@ -33,11 +33,11 @@ public class Demo1 {
     }
 
     public static void main(String[] args){
-        //³õÊ¼»¯List
+        //åˆå§‹åŒ–List
         List<String> places = Arrays.asList("Buenos Aires", "Cordoba", "La Plata");
         places.stream().filter(name -> name.startsWith("C")).forEach(name -> System.out.println(name));
 
-        //ÅÅĞò
+        //æ’åº
         List<Integer> comList = new ArrayList<>();
         comList.add(1);comList.add(0);comList.add(3);comList.add(7);comList.add(6);comList.add(5);
         Comparator<Integer> c1 = (x, y) -> x-y;
@@ -53,42 +53,42 @@ public class Demo1 {
         System.out.println("max = " + comList.stream().min(c2).get());
         System.out.println("max = " + comList.stream().min(c3).get());
 
-        //·½·¨¸²¸Ç
+        //æ–¹æ³•è¦†ç›–
         new Thread(() -> System.out.println("hello, world")).start();
 
-        //¹ıÂËÑ­»·Êä³ö
+        //è¿‡æ»¤å¾ªç¯è¾“å‡º
         Predicate<String> p = name -> !name.startsWith("Mr");
         List l = new ArrayList<String>();
         l.add("Mr Ni");l.add("Ms Zhang");l.add("Ms Lv");l.add("Ms Wang");
         l.stream().filter(p).forEach(name -> System.out.println(name));
 
-        //ÕÒÍêÃÀÊı
+        //æ‰¾å®Œç¾æ•°
         System.out.println(
                 IntStream.range(1, 12).filter(t -> 12%t == 0).sum()
         );
 
-        //¹ıÂËÆ´½Ó
+        //è¿‡æ»¤æ‹¼æ¥
         List<String> list = new ArrayList<String>();
         list.add("ni");
         list.add("da");
         list.add("yu");
         list.add("ni");
         System.out.println(
-                list.parallelStream() //²¢·¢µÄ£¬ºÍstream()²»Ò»Ñù
+                list.parallelStream() //å¹¶å‘çš„ï¼Œå’Œstream()ä¸ä¸€æ ·
                         .filter(name -> name!=null)
                         .filter(name -> name.length()>1)
                         .map(name -> name.substring(0, 1).toUpperCase()+name.substring(1, name.length()))
                         .collect(Collectors.joining(","))
         );
 
-        //Ñ­»·±éÀú
+        //å¾ªç¯éå†
         List<String> list1 = new ArrayList<String>();
         list.stream().filter(w -> !NON_WORDS.contains(w)).forEach(w -> list1.add(w));
         for (int i=0;i<list1.size();i++){
             System.out.println(list1.get(i));
         }
 
-        //Í³¼Æ£¡
+        //ç»Ÿè®¡ï¼
         TreeMap<String, Integer> wordMap = new TreeMap<String, Integer>();
         list.stream().map(w -> w.toUpperCase())
                 .filter(w -> !NON_WORDS.contains(w))
