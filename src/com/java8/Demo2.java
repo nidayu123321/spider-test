@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class Demo2 {
     public static void main(String[] args){
         List<String> collected = Stream.of("a", "b", "c").collect(Collectors.toList());
-        //¶ÏÑÔ
+        //æ–­è¨€
         assertEquals(Arrays.asList("a", "b", "c"), collected);
 
         List<String> collected2 = Stream.of("a", "b", "hello")
@@ -33,7 +33,7 @@ public class Demo2 {
                 .collect(Collectors.toList());
         assertEquals(Arrays.asList(1, 2, 3, 4), together);
 
-        //°´ÕÕÀàµÄÊôĞÔ£¬Çó³ö×îĞ¡µÄÒ»¸öÀà£¡
+        //æŒ‰ç…§ç±»çš„å±æ€§ï¼Œæ±‚å‡ºæœ€å°çš„ä¸€ä¸ªç±»ï¼
         List<Track> tracks = Arrays.asList(
                 new Track("ni", 17),
                 new Track("da", 20),
@@ -47,14 +47,14 @@ public class Demo2 {
         System.out.println(minLengthTrack.getLength() +" "+ minLengthTrack.getNeme());
         assertEquals(tracks.get(0), minLengthTrack);
 
-        //ÅÅĞòÊä³ö
+        //æ’åºè¾“å‡º
         tracks.stream()
                 .sorted(Comparator.comparing(track -> track.getLength()))
                 .forEach(track1 -> System.out.println(track1.getNeme()));
 
-        //¶ÔÏó×ª»»
+        //å¯¹è±¡è½¬æ¢
         IntSummaryStatistics intSummaryStatistics = tracks.stream()
-                .mapToInt(track -> track.getLength()) //×ª»»³ÉIntStream¶ÔÏó
+                .mapToInt(track -> track.getLength()) //è½¬æ¢æˆIntStreamå¯¹è±¡
                 .summaryStatistics();
         System.out.println(String.format("min: %d \nmax: %d \nave: %f \nsum: %d",
                 intSummaryStatistics.getMin(),
@@ -62,20 +62,20 @@ public class Demo2 {
                 intSummaryStatistics.getAverage(),
                 intSummaryStatistics.getSum()));
 
-        //ÇóºÍ
+        //æ±‚å’Œ
         BinaryOperator<Integer> accumulator = (x, y) -> x + y;
         int count = Stream.of(1, 2, 3)
                 .reduce(0, accumulator);
         assertEquals(6, count);
 
-        //²âÊÔ·½·¨
+        //æµ‹è¯•æ–¹æ³•
         Demo2 java8 = new Demo2();
-        //¸ù¾İÈËÃû·Ö×é
+        //æ ¹æ®äººååˆ†ç»„
         Map<String, List<Track>> map = java8.groupByTrackName(tracks.stream());
         for (Map.Entry<String, List<Track>> entry: map.entrySet()){
             System.out.println(entry.getKey() +" "+ entry.getValue().size());
         }
-        //²âÊÔ·½·¨
+        //æµ‹è¯•æ–¹æ³•
         java8.test(() -> "test info ...");
 
         System.out.printf("hello %s", "world!");
