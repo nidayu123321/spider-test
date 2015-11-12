@@ -1,6 +1,7 @@
 
-package com.spider;
+package com.spider.phone;
 
+import com.spider.HttpClientFactory;
 import com.util.DateUtil;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.json.JSONObject;
@@ -13,7 +14,7 @@ import java.util.Scanner;
  * @Description:
  * @date 2015/8/27
  */
-public class YiDong extends HttpClientFactory{
+public class YiDong extends HttpClientFactory {
 
     private CloseableHttpClient httpClient;
     private String phoneNo;

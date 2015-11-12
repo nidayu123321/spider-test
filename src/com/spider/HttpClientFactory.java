@@ -135,6 +135,9 @@ public class HttpClientFactory {
      * @return
      */
     public String getUrl(String url, String[][] headers, String charset){
+        if (url == null){
+            return null;
+        }
         String ret = null;
         HttpGet httpget = new HttpGet(url);
         // 设置请求头
@@ -187,6 +190,9 @@ public class HttpClientFactory {
      * @return
      */
     public String postUrl(String url, String[][] params, String xmlParam, String[][] headers){
+        if (url == null){
+            return null;
+        }
         // 返回信息
         String ret = null;
         HttpPost httppost = new HttpPost(url);

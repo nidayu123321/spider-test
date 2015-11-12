@@ -1,6 +1,7 @@
 
-package com.spider;
+package com.spider.phone;
 
+import com.spider.HttpClientFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
@@ -8,7 +9,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
  * @Description:
  * @date 2015/8/27
  */
-public class LianTong extends HttpClientFactory{
+public class LianTong extends HttpClientFactory {
 
     private String phoneNo;
     private String password;
