@@ -39,10 +39,35 @@ public class TieBa extends HttpClientFactory {
         String[][] tieBaHeader = {{"Host", "tieba.baidu.com"}};
         String firstHtml = getUrl(url, tieBaHeader);
         //根据连载查找关键字
-        String jingPingTie = Jsoup.parse(firstHtml).select("a").stream().filter(a -> a.text().contains("连载")).map(a -> a.attr("href")).findFirst().get();
-        String newTab = StringUtil.subStr("cid=", "#", jingPingTie+"#");
-        url = "http://tieba.baidu.com/f?kw=" + urlName + "&ie=utf-8&tab=good&cid="+newTab+"&pn=";
-        printBook(url, chapter, newTab, 0);
+        String chinese = StringUtil.replaceToChinese(Integer.parseInt(chapter));
+        if ((Jsoup.parse(firstHtml).select("a[title*=第" + chapter + "章]")!=null&&Jsoup.parse(firstHtml).select("a[title*=第" + chapter + "章]").size()>0)){
+            String chapterHref = Jsoup.parse(firstHtml).select("a[title*=" + chapter + "]").get(0).attr("href");
+            System.out.println(Jsoup.parse(firstHtml).select("a[title*=" + chapter + "]").attr("title"));
+            String[][] headers = {{"Referer", url}, {"Host", "tieba.baidu.com"}};
+            if (chapterHref != null && !chapterHref.startsWith("http")) {
+                chapterHref = "http://tieba.baidu.com" + chapterHref;
+            }
+            String chapterInfo = getUrl(chapterHref, headers);
+            String bookText = Jsoup.parse(chapterInfo).select("div").text();
+            String[] list = bookText.split(" ");
+            Arrays.asList(list).stream().filter(text -> text != null && !"".equals(text.replace(" ", ""))).forEach(text -> print(text));
+        }else if(Jsoup.parse(firstHtml).select("a[title*=第" + chinese + "章]")!=null&&Jsoup.parse(firstHtml).select("a[title*=第" + chinese + "章]").size()>0){
+            String chapterHref = Jsoup.parse(firstHtml).select("a[title*=" + chinese + "]").get(0).attr("href");
+            System.out.println(Jsoup.parse(firstHtml).select("a[title*=" + chinese + "]").attr("title"));
+            String[][] headers = {{"Referer", url}, {"Host", "tieba.baidu.com"}};
+            if (chapterHref != null && !chapterHref.startsWith("http")) {
+                chapterHref = "http://tieba.baidu.com" + chapterHref;
+            }
+            String chapterInfo = getUrl(chapterHref, headers);
+            String bookText = Jsoup.parse(chapterInfo).select("div").text();
+            String[] list = bookText.split(" ");
+            Arrays.asList(list).stream().filter(text -> text != null && !"".equals(text.replace(" ", ""))).forEach(text -> print(text));
+        }else {
+            String jingPingTie = Jsoup.parse(firstHtml).select("a").stream().filter(a -> a.text().contains("连载")).map(a -> a.attr("href")).findFirst().get();
+            String newTab = StringUtil.subStr("cid=", "#", jingPingTie + "#");
+            url = "http://tieba.baidu.com/f?kw=" + urlName + "&ie=utf-8&tab=good&cid=" + newTab + "&pn=";
+            printBook(url, chapter, newTab, 0);
+        }
     }
 
     /**
@@ -65,7 +90,6 @@ public class TieBa extends HttpClientFactory {
             printBook(url, chapter, tabNum, pageNo+1);
             return;
         }
-
         String[][] headers = {{"Referer", url}, {"Host", "tieba.baidu.com"}};
         if (chapterHref != null && !chapterHref.startsWith("http")) {
             chapterHref = "http://tieba.baidu.com" + chapterHref;
@@ -83,9 +107,9 @@ public class TieBa extends HttpClientFactory {
     public static void main(String[] args) {
         CloseableHttpClient httpClient= getInstance();
         TieBa tieBa = new TieBa(httpClient);
-        String name = "永恒剑主";
+        String name = "巫神纪";
         // 贴吧
-        String TestChapter = "108";
+        String TestChapter = "182";
         tieBa.getTab(name, TestChapter, 0);
     }
 
