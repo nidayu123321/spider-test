@@ -116,15 +116,9 @@ class MailReceiverInfo {
 
     public Properties getProperties(){
         Properties p = new Properties();
-        /**
-         * modefy Rui li
-         * @time 2014.11.7
-         */
         p.setProperty("mail.pop3.timeout", "60000");
-
         p.put("mail.pop3.host", this.mailServerHost);
         p.put("mail.pop3.port", this.mailServerPort);
-//        p.put("mail.pop3.auth", validate ? "true" : "false");     //写代码的人确定官方api里有这个属性吗？不是下面这行我改的那个属性吗？因为这条属性设置的错误，导致所有需要smtp身份验证的邮箱全部登陆失败!!!
         p.put("mail.smtp.auth", validate ? "true" : "false");
         p.putAll(prop);
         return p;
