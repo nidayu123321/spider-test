@@ -23,9 +23,9 @@ public class TieBa extends HttpClientFactory {
     }
 
     public static final String name = "魔天记";
-    public static final String testChapter = "1436";
+    public static final String testChapter = "1553";
     public static final String chinese = StringUtil.replaceToChinese(Integer.parseInt(testChapter));
-    public static final String flag = "a[title*=" + testChapter + "]";
+    public static final String flag = "a[title*=" + "完本感言" + "]";
     public static final String chinaFlag = "a[title*=" + chinese + "]";
     /**
      * 获取连载贴
@@ -39,9 +39,10 @@ public class TieBa extends HttpClientFactory {
         }catch (Exception e){
             e.printStackTrace();
         }
-        String url = "http://tieba.baidu.com/f?kw=" + urlName + "&ie=utf-8&tab=good&cid=0&pn=0";
+        String url = "http://tieba.baidu.com/f?kw="+urlName+"&ie=utf-8&tab=good";
         String[][] tieBaHeader = {{"Host", "tieba.baidu.com"}};
         String firstHtml = getUrl(url, tieBaHeader);
+//        print(firstHtml);
         //根据连载查找关键字
         if ((Jsoup.parse(firstHtml).select(flag)!=null&&Jsoup.parse(firstHtml).select(flag).size()>0)){
             String chapterHref = Jsoup.parse(firstHtml).select(flag).get(0).attr("href");

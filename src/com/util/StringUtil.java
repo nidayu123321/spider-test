@@ -132,6 +132,9 @@ public class StringUtil {
             }
             temp = temp / 10;
         }
+        if (amountPart >= 10 && amountPart <20){
+            chineseStr = chineseStr.substring(1, chineseStr.length());
+        }
         return chineseStr;
     }
 }

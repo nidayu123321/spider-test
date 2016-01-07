@@ -78,7 +78,7 @@ public class Demo1 {
                         .filter(name -> name!=null)
                         .filter(name -> name.length()>1)
                         .map(name -> name.substring(0, 1).toUpperCase()+name.substring(1, name.length()))
-                        .collect(Collectors.joining(","))
+                        .collect(Collectors.joining("','"))
         );
 
         //循环遍历
